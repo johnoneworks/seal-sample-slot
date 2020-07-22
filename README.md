@@ -1,2 +1,0 @@
-# seal-sample-slot
-
