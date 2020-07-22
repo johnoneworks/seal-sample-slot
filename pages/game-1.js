@@ -1,7 +1,7 @@
-import Link from 'next/link';
 import { Component } from "react";
 
 import Layout from '../components/Layout';
+import Error from './_error';
 
 export default class Game1 extends Component {
     state = {

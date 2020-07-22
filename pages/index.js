@@ -1,8 +1,8 @@
-import Link from "next/link";
 import { Component } from 'react';
 import fetch from 'isomorphic-unfetch';
 
-import Layout from "../components/Layout";
+import Layout from '../components/Layout';
+import Error from './_error';
 
 const USER_API_URL = "https://api.github.com/users/reedbarger";
 
@@ -13,23 +13,20 @@ export default class Index extends Component {
 
     static async getInitialProps() {
         const res = await fetch(USER_API_URL);
+        const statusCode = res.status > 200 ? res.status : false;
         const data = await res.json();
-        return { username: "user" }
+        return {
+            username: data.name,
+            statusCode,
+        }
     }
-
-    /*
-    componentDidMount() {
-        fetch(USER_API_URL)
-            .then(res => res.json())
-            .then(data => {
-                this.setState({
-                    username: data.name
-                });
-            });
-    }
-    */
 
     render() {
+        const { username, statusCode } = this.props;
+        if (statusCode) {
+            return <Error />
+        }
+
         return (
             <Layout title="Lobby">
                 <p>
