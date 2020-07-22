@@ -12,7 +12,7 @@ Router.onRouteChangeComplete = () => NProgress.done();
 Router.onRouteChangeError = () => NProgress.done();
 
 export default ({ children, title }) => (
-    <div>
+    <div className="root">
         <Head>
             <title>SEAL Sample Vendor Site</title>
             <link
