@@ -22,7 +22,7 @@ export default ({ children, title }) => (
         </Head>
         <header>
             <Link href="/"><a>Lobby</a></Link>
-            <Link href="/game-1"><a>Game #1</a></Link>
+            <Link href="/game-1/[ow]/game-1"><a>Game #1</a></Link>
         </header>
 
         <h1>{title}</h1>
