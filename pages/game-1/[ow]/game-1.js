@@ -7,7 +7,7 @@ import Error from '../../_error';
 
 const Game1 = () => {
     const router = useRouter();
-    const { id } = router.query;
+    const { CustId, Token } = router.query;
 
     let [username, setUsername] = useState("John");
     let [balance, setBalance] = useState(200);
@@ -15,7 +15,7 @@ const Game1 = () => {
     let [slot2, setSlot2] = useState("?");
     let [slot3, setSlot3] = useState("?");
 
-    
+
     function getRandomInt(min, max) {
         min = Math.ceil(min);
         max = Math.floor(max);
@@ -35,6 +35,8 @@ const Game1 = () => {
             <img src="/static/game1-logo.jpg" alt="Game logo" height="200px" />
             <br />
             <h2>
+                QueryParams: CustId - {CustId}, Token - {Token}
+                <br />
                 Username: {username}
                 <br />
                 Remaining Balance: {balance} (all bets are 10 for now)
