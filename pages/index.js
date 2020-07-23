@@ -24,7 +24,7 @@ export default class Index extends Component {
     render() {
         const { username, statusCode } = this.props;
         if (statusCode) {
-            return <Error />
+            return <Error statusCode={statusCode} />
         }
 
         return (
