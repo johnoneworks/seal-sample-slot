@@ -12,7 +12,9 @@
   "license": "ISC",
   "dependencies": {
     "isomorphic-unfetch": "^3.0.0",
+    "mongodb": "^3.5.9",
     "next": "^9.4.4",
+    "next-connect": "^0.8.1",
     "nprogress": "^0.2.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
