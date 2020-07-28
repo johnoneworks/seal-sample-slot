@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import moment from 'moment';
+import { v4 as uuidv4 } from 'uuid';
+
 
 import Layout from '../../../components/Layout';
 
@@ -12,7 +14,8 @@ const Game1 = () => {
     const router = useRouter();
     const { CustId, Token } = router.query;
 
-    let [balance, setBalance] = useState(200);
+    let [balance, setBalance] = useState(0);
+    let [seq, setSeq] = useState("");
     let [playerInfo, setPlayerInfo] = useState({});
     useEffect(() => {
         async function getPlayerInfoWrapper() {
@@ -39,7 +42,7 @@ const Game1 = () => {
                         "Timestamp": timeStamp,
                         "Token": token,
                         "CustId": custId,
-                        "Seq": "test3-test4-test5-test8",
+                        "Seq": uuidv4(),
                         "GameCode": "SAMPLE_GAME_1"
                     };
                     let config = {
@@ -55,7 +58,8 @@ const Game1 = () => {
                     console.log("response");
                     console.log(response.data);
                     setPlayerInfo(response.data);
-
+                    setBalance(response.data.Balance);
+                    setSeq(data.Seq);
                     break;
                 default:
                     break;
@@ -89,8 +93,8 @@ const Game1 = () => {
             <img src="/static/game1-logo.jpg" alt="Game logo" height="200px" />
             <ul>
                 <li>
-                    QueryParams:
-                        <ul>
+                    <strong>QueryParams:</strong>
+                    <ul>
                         <li>
                             CustId - {CustId ? CustId : "null"}
                         </li>
@@ -100,7 +104,7 @@ const Game1 = () => {
                     </ul>
                 </li>
                 <li>
-                    API Response:
+                    <strong>API Response:</strong>
                     <ul>
                         <li>
                             Timestamp - {playerInfo.Timestamp}
@@ -126,7 +130,22 @@ const Game1 = () => {
                         <li>
                             Username - {playerInfo.UserName}
                         </li>
+                        <li>
+                            Balance - {playerInfo.Balance}
+                        </li>
                     </ul>
+                </li>
+                <li>
+                    <strong>Game Client Side:</strong>
+                    <ul>
+                        <li>
+                            Balance - {balance}
+                        </li>
+                        <li>
+                            Seq - {seq}
+                        </li>
+                    </ul>
+
                 </li>
             </ul>
 
