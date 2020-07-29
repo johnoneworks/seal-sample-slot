@@ -7,7 +7,11 @@ import { v4 as uuidv4 } from 'uuid';
 
 import Layout from '../../../components/Layout';
 
-const MODE = 1; // 0: mock mode, 1: actual OW API call
+/** 
+ * 0: mock mode
+ * 1: actual OW API call, but does a login call that mocks OW side behavior
+ * */ 
+const MODE = 1; 
 
 
 const Game1 = () => {
@@ -16,6 +20,8 @@ const Game1 = () => {
 
     let [balance, setBalance] = useState(0);
     let [seq, setSeq] = useState("");
+    let [token, setToken] = useState(Token);
+    let [loginSuccess, setLoginSuccess] = useState(false);
     let [playerInfo, setPlayerInfo] = useState({});
     useEffect(() => {
         async function getPlayerInfoWrapper() {
@@ -32,8 +38,22 @@ const Game1 = () => {
                     setBalance(3000);
                     break;
                 case 1:
+                    const mockLoginConfig = {
+                        method: 'post',
+                        url: '/api/OW_LOGIN',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        data: {}
+                    };
+                    let mockLoginResponse = await axios(mockLoginConfig);
+                    console.log("mockLoginResponse");
+                    console.log(mockLoginResponse.data);
+                    setToken(mockLoginResponse.data.Token);
+                    setLoginSuccess(true);
+
                     let timeStamp = moment().toJSON();
-                    let token = router.query.Token;
+                    //let token = router.query.Token;
                     let custId = router.query.CustId;
                     console.log(timeStamp);
                     console.log(token);
@@ -45,7 +65,7 @@ const Game1 = () => {
                         "Seq": uuidv4(),
                         "GameCode": "SAMPLE_GAME_1"
                     };
-                    let config = {
+                    let gameInfoConfig = {
                         method: 'post',
                         url: '/api/OW_GET_PLAYER_INFO',
                         headers: {
@@ -54,11 +74,11 @@ const Game1 = () => {
                         data: data
                     };
 
-                    let response = await axios(config);
-                    console.log("response");
-                    console.log(response.data);
-                    setPlayerInfo(response.data);
-                    setBalance(response.data.Balance);
+                    let gameInfoResponse = await axios(gameInfoConfig);
+                    console.log("gameInfoResponse");
+                    console.log(gameInfoResponse.data);
+                    setPlayerInfo(gameInfoResponse.data);
+                    setBalance(gameInfoResponse.data.Balance);
                     setSeq(data.Seq);
                     break;
                 default:
@@ -66,7 +86,7 @@ const Game1 = () => {
             }
         }
         getPlayerInfoWrapper();
-    }, [CustId, Token]);
+    }, [loginSuccess]);
 
 
     let [slot1, setSlot1] = useState("?");

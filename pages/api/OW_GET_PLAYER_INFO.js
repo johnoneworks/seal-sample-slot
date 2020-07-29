@@ -1,6 +1,5 @@
 import axios from 'axios';
 import nextConnect from 'next-connect';
-import moment from 'moment';
 
 const handler = nextConnect();
 
